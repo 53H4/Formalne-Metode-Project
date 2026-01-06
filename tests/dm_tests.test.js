@@ -310,7 +310,7 @@ describe("DM - Guest Checkout tests (NO login)", function () {
     await safeClick(SEL.continueBtn);
 
     // Assertion: Ensure that valid and matching email addresses do not trigger validation and allow the user to continue.
-    const urlAfter = await waitForUrlChange(urlBefore, 25000);
+    const urlAfter = await waitForUrlChange(urlBefore, 6000);
     expect(urlAfter).to.not.equal(urlBefore);
 
     expect((await driver.findElements(SEL.emailErrorText)).length).to.equal(0);
@@ -512,6 +512,129 @@ describe("DM - Guest Checkout tests (NO login)", function () {
     const anyDobInvalid = dayInvalid === "true" || monthInvalid === "true" || yearInvalid === "true";
 
     expect(dobErrVisible || anyDobInvalid).to.equal(true);
+  });
+
+  it("TestCase14 - EP - Verify that a guest user, during the ordering process, when entering contact data with a leaved first name field empty, is prevented from proceeding", async function () {
+    const driver = global.driver;
+
+    await openUrl(PRODUCT_URL);
+    await safeClick(SEL.addToCartBtn);
+    expect(await waitCartCountAtLeast(1)).to.be.at.least(1);
+
+    await openUrl(`${BASE_URL}cart`);
+    expect(await driver.getCurrentUrl()).to.include("/cart");
+
+    await safeClick(SEL.guestCheckoutBtn);
+    await driver.wait(until.elementLocated(SEL.firstName), 25000);
+
+    // Fill everything valid first 
+    await fillContactForm({
+      email: "testmail@gmail.com",
+      emailConfirm: "testmail@gmail.com",
+      postalCode: "71000",
+    });
+
+    // Force first name to be truly empty
+    const firstNameEl = await driver.findElement(SEL.firstName);
+    await driver.executeScript("arguments[0].scrollIntoView({block:'center'});", firstNameEl);
+    await firstNameEl.click();
+    await driver.sleep(100);
+
+    await firstNameEl.sendKeys("\uE009", "a", "\uE017");
+    await firstNameEl.sendKeys("\uE003");
+
+    await driver.executeScript(
+      "arguments[0].value=''; arguments[0].dispatchEvent(new Event('input',{bubbles:true})); arguments[0].dispatchEvent(new Event('change',{bubbles:true}));",
+      firstNameEl
+    );
+
+    const lastNameEl = await driver.findElement(SEL.lastName);
+    await lastNameEl.click();
+
+    // Safety assert: ensure it is really empty before continue
+    const firstNameValue = await firstNameEl.getAttribute("value");
+    expect((firstNameValue || "").trim()).to.equal("");
+
+    const urlBefore = await driver.getCurrentUrl();
+    await safeClick(SEL.continueBtn);
+
+    // Assertion: User is blocked from proceeding (URL unchanged) + expected validation message is shown
+    const urlAfter = await driver.getCurrentUrl();
+    expect(urlAfter).to.equal(urlBefore);
+
+    const firstNameErrLocator = By.css(
+      'p[data-dmid="checkout-firstName-error-text"]#checkout-firstName-input-error'
+    );
+
+    const errEl = await driver.wait(until.elementLocated(firstNameErrLocator), 20000);
+    await driver.wait(until.elementIsVisible(errEl), 20000);
+
+    const errText = (await errEl.getText().catch(() => "")).trim().toLowerCase();
+    expect(errText).to.include("molimo");
+    expect(errText).to.include("minimalno");
+    expect(errText).to.include("dva");
+    expect(errText).to.include("znaka");
+  });
+
+  it("TestCase15 - EP - Verify that a guest user, during the ordering process, when entering contact data with a leaved last name field empty, is prevented from proceeding", async function () {
+    const driver = global.driver;
+
+    await openUrl(PRODUCT_URL);
+    await safeClick(SEL.addToCartBtn);
+    expect(await waitCartCountAtLeast(1)).to.be.at.least(1);
+
+    await openUrl(`${BASE_URL}cart`);
+    expect(await driver.getCurrentUrl()).to.include("/cart");
+
+    await safeClick(SEL.guestCheckoutBtn);
+    await driver.wait(until.elementLocated(SEL.lastName), 25000);
+
+    await fillContactForm({
+      email: "testmail@gmail.com",
+      emailConfirm: "testmail@gmail.com",
+      postalCode: "71000",
+    });
+
+    // Force last name to be truly empty
+    const lastNameEl = await driver.findElement(SEL.lastName);
+    await driver.executeScript("arguments[0].scrollIntoView({block:'center'});", lastNameEl);
+    await lastNameEl.click();
+    await driver.sleep(100);
+
+    await lastNameEl.sendKeys("\uE009", "a", "\uE017");
+    await lastNameEl.sendKeys("\uE003");
+
+    await driver.executeScript(
+      "arguments[0].value=''; arguments[0].dispatchEvent(new Event('input',{bubbles:true})); arguments[0].dispatchEvent(new Event('change',{bubbles:true}));",
+      lastNameEl
+    );
+
+    const firstNameEl = await driver.findElement(SEL.firstName);
+    await firstNameEl.click();
+
+    // Safety assert: ensure it is really empty before continue
+    const lastNameValue = await lastNameEl.getAttribute("value");
+    expect((lastNameValue || "").trim()).to.equal("");
+
+    const urlBefore = await driver.getCurrentUrl();
+    await safeClick(SEL.continueBtn);
+
+    // Assertion: User is blocked from proceeding (URL unchanged) + expected validation message is shown
+    const urlAfter = await driver.getCurrentUrl();
+    expect(urlAfter).to.equal(urlBefore);
+
+    const lastNameErrLocator = By.css(
+      'p[data-dmid="checkout-lastName-error-text"]#checkout-lastName-input-error'
+    );
+
+    const errEl = await driver.wait(until.elementLocated(lastNameErrLocator), 20000);
+    await driver.wait(until.elementIsVisible(errEl), 20000);
+
+    const errText = (await errEl.getText().catch(() => "")).trim().toLowerCase();
+    expect(errText).to.include("molimo");
+    expect(errText).to.include("minimalno");
+    expect(errText).to.include("dva");
+    expect(errText).to.include("znaka");
   });
 });
 
