@@ -90,7 +90,7 @@ Each technique is explained and supported with appropriate test cases and docume
 npm install
 
 Run tests:
-npm run
+npm test
 ```
 
 👥 Project Contributors
