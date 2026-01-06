@@ -1,0 +1,9 @@
+.vscode/
+.idea/
+*.swp
+*.swo
+node_modules/
+*.log
+test-results/
+.DS_Store
+Thumbs.db
