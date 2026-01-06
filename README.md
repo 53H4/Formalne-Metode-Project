@@ -20,7 +20,7 @@ Login and registration functionalities were **not selected as the main tested fu
 
 ---
 
-## Applied Testing Techniques
+## 🧪 Applied Testing Techniques
 
 The following software testing techniques were applied and documented:
 
@@ -48,7 +48,7 @@ Each technique is explained and supported with appropriate test cases and docume
 
 ---
 
-## Test Automation
+## 🤖 Test Automation
 
 - **11 automated test cases** was implemented.
 - Technologies used:
@@ -65,16 +65,16 @@ Each technique is explained and supported with appropriate test cases and docume
 
 ## 📁 Repository Structure
 ```txt
-├── tests/ # Automated Selenium test suites
-│ ├── setup.js # Shared setup and teardown logic
+├── tests/             # Automated Selenium test suites
+│ ├── setup.js         # Shared setup and teardown logic
 │ └── dm_tests.test.js # Automated test cases
 ├── package.json
 ├── package-lock.json
 ├── README.md
 ├── LICENSE
-├── 1_Zadatak_.pdf # Seminar documentation
-├── 2_Zadatak_.xlsx # Test case documentation
-├── 4_Zadatak_*.xlsx # Decision tables and related artifacts
+├── 1_Zadatak_.pdf     # Seminar documentation
+├── 2_Zadatak_.xlsx    # Test case documentation
+├── 4_Zadatak_*.xlsx   # Decision tables and related artifacts
 ```
 
 ---
