@@ -64,6 +64,7 @@ Each technique is explained and supported with appropriate test cases and docume
 ---
 
 ## 📁 Repository Structure
+```txt
 ├── tests/ # Automated Selenium test suites
 │ ├── setup.js # Shared setup and teardown logic
 │ └── dm_tests.test.js # Automated test cases
@@ -74,7 +75,7 @@ Each technique is explained and supported with appropriate test cases and docume
 ├── 1_Zadatak_.pdf # Seminar documentation
 ├── 2_Zadatak_.xlsx # Test case documentation
 ├── 4_Zadatak_*.xlsx # Decision tables and related artifacts
-
+```
 
 ---
 
