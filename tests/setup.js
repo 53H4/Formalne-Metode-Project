@@ -6,7 +6,7 @@ const chrome = require("selenium-webdriver/chrome");
 /* Configurations */
 const config = {
     timeouts: {
-        implicit: 10000,
+        implicit: 4000,
         pageLoad: 30000,
         script: 10000,
     },
