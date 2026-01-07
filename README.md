@@ -1,4 +1,4 @@
-# Formal Methods – Seminar Project
+# Formalne Metode – Seminar Project
 
 This repository contains the seminar project for the course **Formal Methods**, focusing on the application of software testing techniques and automated test execution on a real-world web application.
 
