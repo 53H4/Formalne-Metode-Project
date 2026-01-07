@@ -65,11 +65,12 @@ Each technique is explained and supported with appropriate test cases and docume
 
 ## 📁 Repository Structure
 ```txt
-├── tests/             # Automated Selenium test suites
-│ ├── setup.js         # Shared setup and teardown logic
-│ └── dm_tests.test.js # Automated test cases
-├── package.json
-├── package-lock.json
+├── 3_Zadatak
+│  ├── tests/            # Automated Selenium test suites
+│   ├── setup.js         # Shared setup and teardown logic
+│   └── dm_tests.test.js # Automated test cases
+│  └── package.json
+│  └──package-lock.json
 ├── README.md
 ├── LICENSE
 ├── 1_Zadatak_.pdf     # Seminar documentation
